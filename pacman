@@ -3,6 +3,7 @@
 # This fake pacman would wait for db.lck, rather than simply crash.
 # This fake pacman would add option "--noconfirm" automatically.
 
+####################### prepare ##########################
 aurpar_bin_name="$0"
 function where_is_him () {
     SOURCE="$1"
@@ -21,6 +22,7 @@ function where_am_i () {
 my_path=`where_am_i`
 
 source "$my_path/config.sh"
+####################### prepare ##########################
 
 loop_first_iteration=1
 while true; do
