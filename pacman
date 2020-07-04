@@ -1,0 +1,45 @@
+#!/bin/bash
+# Wrapper for /usr/bin/pacman
+# This fake pacman would wait for db.lck, rather than simply crash.
+# This fake pacman would add option "--noconfirm" automatically.
+
+aurpar_bin_name="$0"
+function where_is_him () {
+    SOURCE="$1"
+    while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+        DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+        SOURCE="$(readlink "$SOURCE")"
+        [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+    done
+    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+    echo -n "$DIR"
+}
+function where_am_i () {
+    _my_path=`type -p ${aurpar_bin_name}`
+    where_is_him "$_my_path"
+}
+my_path=`where_am_i`
+
+source "$my_path/config.sh"
+
+loop_first_iteration=1
+while true; do
+    [[ $loop_first_iteration = 0 ]] && sleep 2
+    [[ $? = 127 ]] && exit 127 # Allow Ctrl-C
+    loop_first_iteration=0
+
+    # Wait for the lock.
+    [[ -f "$aurpar_config_lock_path" ]] && continue
+
+    # Launch real pacman, swap stdout and stderr.
+    "$aurpar_config_pacman_path" "$@" --noconfirm 3>&1 1>&2 2>&3 | tee /dev/stderr | grep -F "$aurpar_config_lock_path" > /dev/null
+    pacman_ret=${PIPESTATUS[0]}
+    grep_ret=${PIPESTATUS[1]}
+
+    # May failed because of db.lck. Try again.
+    [[ $pacman_ret = 1 ]] && [[ $grep_ret = 0 ]] && continue
+
+    exit $pacman_ret
+done
+
+
