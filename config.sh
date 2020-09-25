@@ -48,5 +48,8 @@ aurpar_config_package_blacklist=(
     goland-jre
     # goland-eap
     goland-eap-jre
+
+    # wps-office
+    wps-office-mime
     )
 
