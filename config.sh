@@ -6,6 +6,9 @@ aurpar_config_threads=6
 aurpar_config_aur_manager='yaourt'
 # aurpar_config_aur_manager='pakku'
 
+# Username to run aur_manager. It should have password-less sudo, and CAN NOT be root. 
+aurpar_aur_user='recolic'
+
 ########################################################################
 
 # Path of your AUR package manager
