@@ -54,5 +54,8 @@ aurpar_config_package_blacklist=(
 
     # wps-office
     wps-office-mime
+
+    # frpc
+    frps
     )
 
