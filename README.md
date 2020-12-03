@@ -2,6 +2,8 @@
 
 Building is slow, downloading is also slow. Why not build everything in parallel to overlap CPU-heavy tasks, Network-heavy tasks, and IO-heavy tasks?
 
+# Still a BUG in `pacman`. Script may fail now! 
+
 ## Configure
 
 Modify config.sh, and set `aurpar_config_threads`, `aurpar_config_aur_manager` and `aurpar_aur_user`. 
