@@ -2,7 +2,7 @@
 
 Building is slow, downloading is also slow. Why not build everything in parallel to overlap CPU-heavy tasks, Network-heavy tasks, and IO-heavy tasks?
 
-# Still a BUG in `pacman`. Script may fail now! 
+## Warning: Still a BUG in `pacman`. Script currently unstable! 
 
 ## Configure
 
