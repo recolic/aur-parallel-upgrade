@@ -52,11 +52,11 @@ function get_package_list_with_filter () {
     # NO input, NO arg. Result outputs to stdout, seprated by '\n'
     list=`get_package_list` || return $?
 
-    while read -r blacklist; do
-        list=`echo "$list" | grep -vE "^(aur/)?$blacklist$"`
-    done <<< "$aurpar_config_package_blacklist"
+    for blentry in "${aurpar_config_package_blacklist[@]}"; do
+        list=`echo "$list" | grep -vE "^(aur/)?$blentry$"`
+    done
 
-    echo $list
+    echo "$list"
     return $?
 }
 
