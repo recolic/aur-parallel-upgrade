@@ -37,7 +37,7 @@ while true; do
     # We need to send everything into stderr, as aurpar debug output. 
     # We also need to grep keyword from stdout, to detect lock failure. 
     # TODO: tee /dev/stderr permission denied.
-    "$aurpar_config_pacman_path" "$@" --noconfirm 3>&1 1>&2 2>&3 | tee /dev/stderr | grep -F "$aurpar_config_lock_path" > /dev/null
+    "$aurpar_config_pacman_path" "$@" --noconfirm 3>&1 1>&2 2>&3 | tee -a "/tmp/aurpar-pacman.log" | grep -F "$aurpar_config_lock_path" > /dev/null
     pacman_ret=${PIPESTATUS[0]}
     grep_ret=${PIPESTATUS[1]}
 
